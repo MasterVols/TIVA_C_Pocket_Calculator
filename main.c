@@ -40,6 +40,7 @@ void writeChar(uint16_t num) {
 int main(void) {
     PortB_Init();
 		SysTick_Init();
+		delayMicroseconds(1000000);
     initLCD();
     
 		//use asscii table

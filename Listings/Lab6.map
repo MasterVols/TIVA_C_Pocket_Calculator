@@ -519,9 +519,9 @@ Image Symbol Table
     __use_no_semihosting_swi                 0x000003d9   Thumb Code     2  use_no_semi.o(.text)
     __semihosting_library_function           0x000003db   Thumb Code     0  indicate_semi.o(.text)
     initLCD                                  0x000003dd   Thumb Code   796  main.o(.text.initLCD)
-    main                                     0x000006f9   Thumb Code   306  main.o(.text.main)
-    Region$$Table$$Base                      0x0000082c   Number         0  anon$$obj.o(Region$$Table)
-    Region$$Table$$Limit                     0x0000084c   Number         0  anon$$obj.o(Region$$Table)
+    main                                     0x000006f9   Thumb Code   326  main.o(.text.main)
+    Region$$Table$$Base                      0x00000840   Number         0  anon$$obj.o(Region$$Table)
+    Region$$Table$$Limit                     0x00000860   Number         0  anon$$obj.o(Region$$Table)
     delayMS                                  0x20000000   Data           4  main.o(.data.delayMS)
     __libspace_start                         0x20000008   Data          96  libspace.o(.bss)
     __temporary_stack_top$libspace           0x20000068   Data           0  libspace.o(.bss)
@@ -534,9 +534,9 @@ Memory Map of the image
 
   Image Entry point : 0x0000026d
 
-  Load Region LR_1 (Base: 0x00000000, Size: 0x00000850, Max: 0xffffffff, ABSOLUTE)
+  Load Region LR_1 (Base: 0x00000000, Size: 0x00000864, Max: 0xffffffff, ABSOLUTE)
 
-    Execution Region ER_RO (Exec base: 0x00000000, Load base: 0x00000000, Size: 0x0000084c, Max: 0xffffffff, ABSOLUTE)
+    Execution Region ER_RO (Exec base: 0x00000000, Load base: 0x00000000, Size: 0x00000860, Max: 0xffffffff, ABSOLUTE)
 
     Exec Addr    Load Addr    Size         Type   Attr      Idx    E Section Name        Object
 
@@ -600,19 +600,19 @@ Memory Map of the image
     0x000003da   0x000003da   0x00000000   Code   RO          167    .text               c_w.l(indicate_semi.o)
     0x000003da   0x000003da   0x00000002   PAD
     0x000003dc   0x000003dc   0x0000031c   Code   RO            2    .text.initLCD       main.o
-    0x000006f8   0x000006f8   0x00000132   Code   RO            8    .text.main          main.o
-    0x0000082a   0x0000082a   0x00000002   PAD
-    0x0000082c   0x0000082c   0x00000020   Data   RO          223    Region$$Table       anon$$obj.o
+    0x000006f8   0x000006f8   0x00000146   Code   RO            8    .text.main          main.o
+    0x0000083e   0x0000083e   0x00000002   PAD
+    0x00000840   0x00000840   0x00000020   Data   RO          223    Region$$Table       anon$$obj.o
 
 
-    Execution Region ER_RW (Exec base: 0x20000000, Load base: 0x0000084c, Size: 0x00000004, Max: 0xffffffff, ABSOLUTE)
+    Execution Region ER_RW (Exec base: 0x20000000, Load base: 0x00000860, Size: 0x00000004, Max: 0xffffffff, ABSOLUTE)
 
     Exec Addr    Load Addr    Size         Type   Attr      Idx    E Section Name        Object
 
-    0x20000000   0x0000084c   0x00000004   Data   RW           16    .data.delayMS       main.o
+    0x20000000   0x00000860   0x00000004   Data   RW           16    .data.delayMS       main.o
 
 
-    Execution Region ER_ZI (Exec base: 0x20000008, Load base: 0x00000850, Size: 0x00000460, Max: 0xffffffff, ABSOLUTE)
+    Execution Region ER_ZI (Exec base: 0x20000008, Load base: 0x00000864, Size: 0x00000460, Max: 0xffffffff, ABSOLUTE)
 
     Exec Addr    Load Addr    Size         Type   Attr      Idx    E Section Name        Object
 
@@ -628,11 +628,11 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   Object Name
 
-      1102          0          0          4          0       3774   main.o
+      1122          0          0          4          0       3811   main.o
        708        632          0          0       1024        984   startup.o
 
     ----------------------------------------------------------------------
-      1812        632         32          4       1024       4758   Object Totals
+      1832        632         32          4       1024       4795   Object Totals
          0          0         32          0          0          0   (incl. Generated)
          2          0          0          0          0          0   (incl. Padding)
 
@@ -681,15 +681,15 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   
 
-      2092        648         32          4       1120       5234   Grand Totals
-      2092        648         32          4       1120       5234   ELF Image Totals
-      2092        648         32          4          0          0   ROM Totals
+      2112        648         32          4       1120       5271   Grand Totals
+      2112        648         32          4       1120       5271   ELF Image Totals
+      2112        648         32          4          0          0   ROM Totals
 
 ==============================================================================
 
-    Total RO  Size (Code + RO Data)                 2124 (   2.07kB)
+    Total RO  Size (Code + RO Data)                 2144 (   2.09kB)
     Total RW  Size (RW Data + ZI Data)              1124 (   1.10kB)
-    Total ROM Size (Code + RO Data + RW Data)       2128 (   2.08kB)
+    Total ROM Size (Code + RO Data + RW Data)       2148 (   2.10kB)
 
 ==============================================================================
 
