@@ -6,7 +6,7 @@
 // LCD port:
 void PortB_Init(void);
 void PortB_Write(uint8_t data);
-int delayMS = 100000;
+int delayMS = 1;
 // timer handling:
 void SysTick_Init(void);
 void delayMicroseconds(uint32_t microseconds);
@@ -32,21 +32,37 @@ void initLCD(void) {
 		PortB_Write(0x03);
 }
 
-void writeChar(uint16_t num) {
-		num |= 0x20; //sets RS to 1
-		PortB_Write(num);
+void writeChar(char c) {
+    uint8_t upper_nibble = (c & 0xF0) >> 4; // Extract upper 4 bits
+    uint8_t lower_nibble = c & 0x0F;        // Extract lower 4 bits
+
+    upper_nibble |= 0x20; // Set RS to 1
+    lower_nibble |= 0x20; // Set RS to 1
+
+    PortB_Write(upper_nibble);
+    PortB_Write(lower_nibble);
+}
+
+void writeString(const char *str) {
+    while (*str) {
+        writeChar(*str);
+        str++;
+    }
 }
 
 int main(void) {
     PortB_Init();
 		SysTick_Init();
+		// Let LCD Capacitance charge:
+		delayMicroseconds(1000000);
+		delayMicroseconds(1000000);
 		delayMicroseconds(1000000);
     initLCD();
     
-		//use asscii table
 		
-    writeChar(0x02);
-		writeChar(0x01);
+		writeChar('H');
+		writeChar('I');
+		writeString("Phillip!");
 
     return 0;
 }
@@ -86,10 +102,10 @@ void PortB_Write(uint8_t data) {
 		GPIO_PORTB_DATA_R |= 0x10; //sends the enable
 		delayMicroseconds(delayMS);
 	
-		GPIO_PORTB_DATA_R &= ~0x0F;
-	
 		delayMicroseconds(delayMS);
 		GPIO_PORTB_DATA_R &= ~0x10; //turns off enable
+		delayMicroseconds(delayMS);
+		GPIO_PORTB_DATA_R &= ~0x0F;
 }
 
 
