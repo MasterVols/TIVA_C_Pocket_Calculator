@@ -135,11 +135,11 @@
             <RunIndependent>0</RunIndependent>
             <UpdateFlashBeforeDebugging>1</UpdateFlashBeforeDebugging>
             <Capability>1</Capability>
-            <DriverSelection>-1</DriverSelection>
+            <DriverSelection>4096</DriverSelection>
           </Flash1>
           <bUseTDR>1</bUseTDR>
           <Flash2>BIN\UL2CM3.DLL</Flash2>
-          <Flash3></Flash3>
+          <Flash3>"" ()</Flash3>
           <Flash4></Flash4>
           <pFcarmOut></pFcarmOut>
           <pFcarmGrp></pFcarmGrp>
@@ -391,34 +391,24 @@
               <FilePath>.\main.c</FilePath>
             </File>
             <File>
-              <FileName>PLL.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\PLL.c</FilePath>
-            </File>
-            <File>
-              <FileName>PortF.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\PortF.c</FilePath>
-            </File>
-            <File>
               <FileName>startup.s</FileName>
               <FileType>2</FileType>
               <FilePath>.\startup.s</FilePath>
             </File>
             <File>
-              <FileName>PLL.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\PLL.h</FilePath>
-            </File>
-            <File>
-              <FileName>PortF.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\PortF.h</FilePath>
-            </File>
-            <File>
               <FileName>tm4c123gh6pm.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\tm4c123gh6pm.h</FilePath>
+            </File>
+            <File>
+              <FileName>DISPLAY.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\DISPLAY.c</FilePath>
+            </File>
+            <File>
+              <FileName>LCD_DISPLAY.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\LCD_DISPLAY.h</FilePath>
             </File>
           </Files>
         </Group>
