@@ -6,7 +6,6 @@
 int main(void) {
     PortB_Init();
 		SysTick_Init();
-		
     initLCD();
     
 		writeString("ABCDEFGHIJ");
