@@ -1,14 +1,14 @@
 Dependencies for Project 'Terri_Calc', Target 'Target 1': (DO NOT MODIFY !)
 CompilerVersion: 6190000::V6.19::ARMCLANG
-F (.\main.c)(0x64581CC9)(-xc -std=c90 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=none -mfloat-abi=soft -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__EVAL -mlittle-endian -gdwarf-4 -O1 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier-IC:/Users/Matth/AppData/Local/Arm/Packs/ARM/CMSIS/5.9.0/Device/ARM/ARMCM4/Include-D__UVISION_VERSION="538" -DARMCM4-o ./objects/main.o -MD)
+F (.\main.c)(0x64597E7B)(-xc -std=c90 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=none -mfloat-abi=soft -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__EVAL -mlittle-endian -gdwarf-4 -O1 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier-IC:/Users/reed2/AppData/Local/Arm/Packs/ARM/CMSIS/5.9.0/Device/ARM/ARMCM4/Include-D__UVISION_VERSION="538" -DARMCM4-o ./objects/main.o -MD)
 I (C:\Keil_v5\ARM\ARMCLANG\include\stdint.h)(0x6388FFD8)
 I (C:\Keil_v5\ARM\ARMCLANG\include\stdbool.h)(0x6388FFD8)
-I (LCD_DISPLAY.h)(0x64581CC8)
-I (TM4C123GH6PM.h)(0x644EAD30)
-F (.\startup.s)(0x644EA9E9)(--cpu Cortex-M4 --fpu=SoftVFP --li --pd "__EVAL SETA 1" -g --diag_suppress=A1950W-IC:\Users\Matth\AppData\Local\Arm\Packs\ARM\CMSIS\5.9.0\Device\ARM\ARMCM4\Include--pd "__UVISION_VERSION SETA 538"--pd "ARMCM4 SETA 1"--list .\listings\startup.lst--xref -o .\objects\startup.o--depend .\objects\startup.d)
-F (.\tm4c123gh6pm.h)(0x644EAD30)()
-F (.\DISPLAY.c)(0x64581CF7)(-xc -std=c90 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=none -mfloat-abi=soft -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__EVAL -mlittle-endian -gdwarf-4 -O1 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier-IC:/Users/Matth/AppData/Local/Arm/Packs/ARM/CMSIS/5.9.0/Device/ARM/ARMCM4/Include-D__UVISION_VERSION="538" -DARMCM4-o ./objects/display.o -MD)
-I (LCD_DISPLAY.h)(0x64581CC8)
+I (LCD_DISPLAY.h)(0x645944DF)
+I (TM4C123GH6PM.h)(0x645944DF)
+F (.\startup.s)(0x645944DF)(--cpu Cortex-M4 --fpu=SoftVFP --li --pd "__EVAL SETA 1" -g --diag_suppress=A1950W-IC:\Users\reed2\AppData\Local\Arm\Packs\ARM\CMSIS\5.9.0\Device\ARM\ARMCM4\Include--pd "__UVISION_VERSION SETA 538"--pd "ARMCM4 SETA 1"--list .\listings\startup.lst--xref -o .\objects\startup.o--depend .\objects\startup.d)
+F (.\tm4c123gh6pm.h)(0x645944DF)()
+F (.\DISPLAY.c)(0x645944DF)(-xc -std=c90 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=none -mfloat-abi=soft -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__EVAL -mlittle-endian -gdwarf-4 -O1 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier-IC:/Users/reed2/AppData/Local/Arm/Packs/ARM/CMSIS/5.9.0/Device/ARM/ARMCM4/Include-D__UVISION_VERSION="538" -DARMCM4-o ./objects/display.o -MD)
+I (LCD_DISPLAY.h)(0x645944DF)
 I (C:\Keil_v5\ARM\ARMCLANG\include\stdint.h)(0x6388FFD8)
-I (TM4C123GH6PM.h)(0x644EAD30)
-F (.\LCD_DISPLAY.h)(0x64581CC8)()
+I (TM4C123GH6PM.h)(0x645944DF)
+F (.\LCD_DISPLAY.h)(0x645944DF)()
