@@ -19,7 +19,6 @@ char* float_to_string(char* s, float f);
 int main(void) {
     PortB_Init();
 		SysTick_Init();
-		
     initLCD();
 		writeString("ABCDEFGHIJ");
 		
