@@ -17,52 +17,71 @@ int eval_layer(struct component*,int*);
 int float_size(float);
 char* float_to_string(char* s, float f);
 
+void initButtons(void) {
+    // Enable the clock for Port A
+    SYSCTL_RCGCGPIO_R |= SYSCTL_RCGCGPIO_R0;
+
+    // Wait for the GPIOA to be ready
+    while ((SYSCTL_PRGPIO_R & SYSCTL_PRGPIO_R0) == 0) {};
+
+    // Unlock Port A
+    GPIO_PORTA_LOCK_R = GPIO_LOCK_KEY;
+    GPIO_PORTA_CR_R |= 0x0C; // Enable changes to PA2 and PA3
+
+    // Set PA2 and PA3 pins as digital
+    GPIO_PORTA_DEN_R |= 0x0C;
+
+    // Set PA2 and PA3 pins as inputs
+    GPIO_PORTA_DIR_R &= ~0x0C;
+
+    // Enable pull-up resistors for PA2 and PA3
+    GPIO_PORTA_PUR_R |= 0x0C;
+
+    // Lock Port A
+    GPIO_PORTA_LOCK_R = 0;
+}
+
+// Function to read the state of PA2 and PA3 buttons
+uint8_t readButtons(void) {
+    uint8_t buttonState = 0;
+
+    // Read PA2 and PA3 pins state
+    buttonState = (GPIO_PORTA_DATA_R & 0x0C) >> 2;
+
+    return buttonState;
+}
+
 int main(void) {
     PortB_Init();
 		SysTick_Init();
     initLCD();
-	
-	
-		writeString("");
-		writeString("FUCK");
-	
-		
-		/*
-		char input[12];
-		input[0] = '4';
-		input[1] = '+';
-		input[2] = '4';
-		input[3] = '!';
-		//input = "4+4!";  
-		// set input here;
-	
-		
-		float eval = 0;
-	  struct component comps[100];
-	  int failed = 0;
-		int comps_size = 100;
-		
-		
-		
-		parse_input(comps,input,&comps_size,&failed);
-		int ml = 1;
-		if (failed)
-		{
-			writeString("ERROR:fail");
-		}
-		else
-		{
-			while (ml != 0)
-			{
-				ml = eval_layer(comps,&comps_size);
-			}
-			float f = comps[0].val;
-			char flt[float_size(f)-1];
-			float_to_string(flt,f);
-			initLCD();
-			writeString("test"); 
-		}
-		*/
+		initButtons(); // Initialize the buttons
+
+    writeString("Btn1:  Btn2: ");
+
+    while (1) {
+        uint8_t buttonState = readButtons();
+
+        // Display the state of PA2 (Btn1)
+        if (buttonState & 0x01) {
+            clearDisplay();
+            writeString("Btn1: 1 Btn2: ");
+        } else {
+            clearDisplay();
+            writeString("Btn1: 0 Btn2: ");
+        }
+
+        // Display the state of PA3 (Btn2)
+        if (buttonState & 0x02) {
+            writeString("1");
+        } else {
+            writeString("0");
+        }
+
+        // Add some delay to debounce the buttons and avoid flickering on the display
+        delayMicroseconds(100000);
+    }
+
     return 0;
 }
 
@@ -402,3 +421,6 @@ char* float_to_string(char* s, float f)
   }
   return s;
 }
+
+
+
