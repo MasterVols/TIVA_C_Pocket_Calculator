@@ -114,3 +114,25 @@ void delayMicroseconds(uint32_t microseconds) {
     NVIC_ST_CURRENT_R = 0;                       // Clear the current register
     while ((NVIC_ST_CTRL_R & NVIC_ST_CTRL_COUNT) == 0) {} // Wait for the count flag to be set
 }
+
+void clearDisplay(void) {
+		delayMicroseconds(40000);
+    uint8_t upper_nibble = 0x00; // Clear Display command: 0x01
+    uint8_t lower_nibble = 0x01;
+
+    upper_nibble = reverseBits(upper_nibble);
+    lower_nibble = reverseBits(lower_nibble);
+	
+		GPIO_PORTB_DATA_R &= ~0x20; // Set RS to 0
+    GPIO_PORTB_DATA_R &= ~0x20;
+
+    // Send command with RS set to 0
+    PortB_Write(upper_nibble);
+    PortB_Write(lower_nibble);
+	
+		GPIO_PORTB_DATA_R |= 0x20; // Set RS to 0
+    GPIO_PORTB_DATA_R |= 0x20;
+
+    // The Clear Display command takes longer to execute, add a longer delay
+    delayMicroseconds(4000);
+}

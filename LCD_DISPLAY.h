@@ -11,6 +11,7 @@ void delayMicroseconds(uint32_t microseconds);
 void initLCD(void);
 void writeChar(char c);
 void writeString(const char *str);
+void clearDisplay(void);
 uint8_t reverseBits(uint8_t n);
 
 #endif // LCD_DISPLAY_H

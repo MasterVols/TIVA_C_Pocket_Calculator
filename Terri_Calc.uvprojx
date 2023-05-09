@@ -410,6 +410,16 @@
               <FileType>5</FileType>
               <FilePath>.\LCD_DISPLAY.h</FilePath>
             </File>
+            <File>
+              <FileName>switch_matrix.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\switch_matrix.h</FilePath>
+            </File>
+            <File>
+              <FileName>switch_matrix.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\switch_matrix.c</FilePath>
+            </File>
           </Files>
         </Group>
       </Groups>

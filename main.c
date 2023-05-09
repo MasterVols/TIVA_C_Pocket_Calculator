@@ -2,6 +2,7 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include "LCD_DISPLAY.h"
+#include "switch_matrix.h"
 
 struct component
 {
@@ -19,11 +20,26 @@ char* float_to_string(char* s, float f);
 int main(void) {
     PortB_Init();
 		SysTick_Init();
-		
     initLCD();
-		writeString("ABCDEFGHIJ");
+		switch_matrix_init();
+	
+	
+		writeString("");
+	
+		//loop:
+		while (1) {
+				clearDisplay();
+
+        uint8_t button = switch_matrix_read();
+				
+
+        if (button != 0xFF) {
+            // A button press is detected, convert button number to character and write it to the display
+            char button_char = (button < 10) ? ('0' + button) : ('A' + button - 10);
+            writeChar(button_char);
+        }
+    }
 		
-		//initLCD();
 		
 		/*
 		char input[12];
