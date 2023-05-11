@@ -11,9 +11,9 @@ struct component
     int layer;
 };
 
-void parse_input (struct component*, char*, int*, int*);
+//void parse_input (struct component*, char*, int*, int*);
+
 float num_evaluation(char*, unsigned int*);
-int eval_layer(struct component*,int*);
 int float_size(float);
 char* float_to_string(char* s, float f);
 
@@ -56,32 +56,111 @@ int main(void) {
 		SysTick_Init();
     initLCD();
 		initButtons(); // Initialize the buttons
+	
+		clearDisplay();
+		writeString("ECE-256 Final");
+		delayMicroseconds(3000000);
 
-    writeString("Btn1:  Btn2: ");
+		char options[18] = {'0','1','2','3','4','5','6','7','8','9','+','-','*','/','(',')','!','C'};
+    int selection = 0;
+		char current[17] = {' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '};
+		unsigned int indexer = 0;
+		
+		clearDisplay();
+		delayMicroseconds(100000);
+		uint8_t buttonState = readButtons();
+		int contm = 1;
+		
+		//float f = 12.12;
+		//char flt[float_size(f)];
+		//float_to_string(flt,f);
+		//writeString(flt);
+			
+		selection = 0;
+		indexer = 0;
+		while (contm)
+		{
+			int operator_index = -1;
+			int eos = -1;
+			while (1)
+			{
+			buttonState = readButtons();
+			// Button one is on the right
+			// Display the respective thing				
+			if ((buttonState & 0x01) == 0)
+			{
 
-    while (1) {
-        uint8_t buttonState = readButtons();
-
-        // Display the state of PA2 (Btn1)
-        if (buttonState & 0x01) {
-            clearDisplay();
-            writeString("Btn1: 1 Btn2: ");
-        } else {
-            clearDisplay();
-            writeString("Btn1: 0 Btn2: ");
-        }
-
-        // Display the state of PA3 (Btn2)
-        if (buttonState & 0x02) {
-            writeString("1");
-        } else {
-            writeString("0");
-        }
-
-        // Add some delay to debounce the buttons and avoid flickering on the display
-        delayMicroseconds(100000);
-    }
-
+				selection = selection + 1;
+				if (selection >= 18)
+				{
+					selection = 0;
+				}
+			}
+			else if ((buttonState & 0x02) == 0)
+			{
+				
+				if (options[selection] == '!')
+				{
+					eos = indexer;
+					break;
+				}
+				else if (options[selection] == 'C')
+				{
+					int i = 0;
+					for (i = 0; i < 17; i++)
+					{
+						current[i] = ' ';
+						selection = 0;
+						indexer = 0;
+					}
+				}
+				else
+				{
+					if (options[selection] == '+' || options[selection] == '-' || options[selection] == '*' || options[selection] == '/')
+					{
+						operator_index = indexer;
+					}
+					indexer = indexer + 1;
+					selection = 0;
+				}
+			}
+			current[indexer] = options[selection];
+			clearDisplay();
+			writeString(current);
+			delayMicroseconds(500);
+		}
+			// Handle the equation
+			indexer = 0;
+			float a = num_evaluation(current,&indexer);
+			indexer++;
+			char op = current[indexer];
+			indexer++;
+			float b = num_evaluation(current,&indexer);
+		
+			float eval = 0;
+			if (op == '*') eval = a * b;
+			else if (op == '/') eval = a / b;
+			else if (op == '+') eval = a + b;
+			else if (op == '-') eval = a - b;
+			
+			char evals[float_size(eval)];
+			float_to_string(evals,eval);
+			clearDisplay();
+			delayMicroseconds(500);
+			int i = 0;
+			for (i = 0; i < 17; i++) current[i] = ' ';
+			
+			if (eval < 0) for (i = 0; i < float_size(eval) + 1; i++) current[i] = evals[i];
+			else for (i = 0; i < float_size(eval); i++) current[i] = evals[i];
+			writeString(current);
+			delayMicroseconds(10000);
+			while ((buttonState & 0x01) == 1) buttonState = readButtons();
+			for (i = 0; i < 17; i++) current[i] = ' ';
+			indexer = 0;
+			selection = 0;
+	}
+		
+	
     return 0;
 }
 
@@ -133,203 +212,6 @@ float num_evaluation(char* str, unsigned int* index)
 }
 
 
-void parse_input (struct component* comps, char* str, int* comps_size, int* failed)
-{
-	int comp_indexer = 0;
-	unsigned int lv = 0;
-  unsigned int max_layer = 0;
-	unsigned int i;
-  for (i = 0; i < 1000; i++)
-  {
-		if (str[i] == '!') 
-    {
-			if (comps[comp_indexer-1].layer != 0 && (str[i-1] != ')'))
-      {
-				writeString("ERROR:unbal");
-				//printf("ERROR: Unbalanced parenthetical groups.\n");
-        *failed = 1;
-      }
-      else if ((str[i-1] == ')') && comps[comp_indexer-1].layer != 1)
-      {
-				writeString("ERROR:unbal");
-        //printf("ERROR: Unbalanced parenthetical groups.\n");
-        *failed = 1;
-      }
-      else
-      { 
-				comps[comp_indexer].cont = ')';
-				comps[comp_indexer].layer = 0;
-        comps[comp_indexer++].val = 0;
-      }    
-      *comps_size = comp_indexer;
-      break;
-		}
-    if (str[i] == '0' || str[i] == '1' || str[i] == '2' || str[i] == '3' || str[i] == '4' || str[i] == '5' || str[i] == '6' || str[i] == '7' || str[i] == '8' || str[i] == '9' || str[i] == '.')
-    {
-			comps[comp_indexer].cont = 'n';
-			comps[comp_indexer].layer = lv;
-      comps[comp_indexer++].val = num_evaluation(str,&i);
-    }
-    else if (str[i] == '(')
-    {
-			comps[comp_indexer].cont = '(';
-			comps[comp_indexer].layer = ++lv;
-			comps[comp_indexer++].val = 0;
-    }
-    else if (str[i] == ')')
-    {
-			comps[comp_indexer].cont = ')';
-      comps[comp_indexer].layer = lv--;
-			comps[comp_indexer++].val = 0;
-		}
-    else
-    {
-			comps[comp_indexer].cont = str[i];
-      comps[comp_indexer].layer = lv;
-      comps[comp_indexer++].val = 0;
-    }
-    if (lv > max_layer) max_layer = lv;
-	}
-}
-
-int eval_layer(struct component* comps,int* size)
-{
-	//struct component comps[*size];
-  //for (unsigned int i = 0; i < *size; i++) comps[i] = comp[i]; 
-  int max_layer = -1;
-  unsigned int mls = 0;
-  unsigned int mle = 0;
-
-	int i = 0;
-  for (i = 0; i < *size; i++)
-  {
-		if (comps[i].layer > max_layer) max_layer = comps[i].layer;
-  }
-  for (i = 0; i < *size; i++)
-  {
-		if (comps[i].layer == max_layer)
-    {
-			if (comps[i].cont == '(') mls = i;
-      else if (comps[i].cont == ')')
-			{
-				mle = i;
-				break;
-			}
-		}
-	}
-  char prior = '!';
-	unsigned lmd = 0;
-	for (i = mls; i <= mle; i++)
-  {
-		if (prior == 'n' && comps[i].cont == '*')
-    {
-			comps[i].val = comps[i-1].val * comps[i+1].val;
-      comps[i-1].cont = 's';
-      comps[i+1].cont = 's';
-      comps[i].cont = 'n';
-      lmd = i;
-    }
-    else if (prior == 'n' && comps[i].cont == '/')
-		{
-			comps[i].val = comps[i-1].val / comps[i+1].val;
-      comps[i-1].cont = 's';
-      comps[i+1].cont = 's';
-      comps[i].cont = 'n';
-      lmd = i;
-    }
-    else if (prior == 's' && comps[i].cont == '*')
-		{
-			comps[i].val = comps[lmd].val * comps[i+1].val;
-      comps[i+1].cont = 's';
-      comps[lmd].cont = 's';
-      comps[i].cont = 'n';
-      lmd = i;
-    }
-		else if (prior == 's' && comps[i].cont == '/')
-    {
-			comps[i].val = comps[lmd].val / comps[i+1].val;
-      comps[i+1].cont = 's';
-      comps[lmd].cont = 's';
-      comps[i].cont = 'n';
-      lmd = i;
-    }
-    prior = comps[i].cont;
-	}
-  int shift = 0;
-  for (i = 0; i < *size; i++)
-  {
-		if (i >= mls && i <= mle)
-    {
-			if (comps[i].cont == 's')shift++;
-      else comps[i - shift] = comps[i];
-    }
-    else comps[i - shift] = comps[i];
-  }
-  mle = mle - shift;
-  *size = *size - shift;
-  prior = '!';
-	unsigned int lps = 0;
-  for (i = mls; i <= mle; i++)
-  {
-		if (prior == 'n' && comps[i].cont == '+')
-    {
-			comps[i].val = comps[i-1].val + comps[i+1].val;
-      comps[i-1].cont = 's';
-      comps[i+1].cont = 's';
-      comps[i].cont = 'n';
-      lps = i;
-    }
-    else if (prior == 'n' && comps[i].cont == '-')
-    {
-			comps[i].val = comps[i-1].val - comps[i+1].val;
-      comps[i-1].cont = 's';
-      comps[i+1].cont = 's';
-      comps[i].cont = 'n';
-      lps = i;
-    }
-    else if (prior == 's' && comps[i].cont == '+')
-    {
-			comps[i].val = comps[lps].val + comps[i+1].val;
-      comps[i+1].cont = 's';
-      comps[lps].cont = 's';
-      comps[i].cont = 'n';
-      lps = i;
-    }
-		else if (prior == 's' && comps[i].cont == '-')
-    {
-			comps[i].val = comps[lps].val - comps[i+1].val;
-      comps[i+1].cont = 's';
-      comps[lps].cont = 's';
-      comps[i].cont = 'n';
-      lps = i;
-    }
-    else if (prior == '(' && comps[i].cont == '-')
-    {
-			comps[i].val = 0 - comps[i+1].val;
-      comps[i+1].cont = 's';
-      comps[i].cont = 'n';
-      lps = i;
-    }
-    prior = comps[i].cont;
-	}
-	shift = 0;
-  for (i = 0; i < *size; i++)
-  {
-		if (i >= mls && i <= mle)
-		{
-			if (comps[i].cont == 's'|| comps[i].cont == '(' || comps[i].cont == ')') shift++;
-      else
-      {
-				comps[i].layer = comps[i].layer - 1;
-				comps[i - shift] = comps[i];
-      }
-    }
-    else comps[i - shift] = comps[i];
-  }
-  mle = mle - shift;
-  *size = *size - shift;
-  return max_layer;
-}
 
 int float_size(float f)
 {
@@ -361,6 +243,7 @@ int float_size(float f)
   if (signnum == -1) string_len += 1;
   return string_len;
 }
+
 
 char* float_to_string(char* s, float f)
 {
@@ -412,6 +295,7 @@ char* float_to_string(char* s, float f)
   tenpow = 1;
 	for (i = size_after - 1; i >= 0; i--)
   {
+		tenpow = 1;
 		int j = 0;
 		for (j = 0; j < i; j++) tenpow = tenpow * 10;
     int divs = postdec / tenpow;
