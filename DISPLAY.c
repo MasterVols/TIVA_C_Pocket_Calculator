@@ -4,7 +4,7 @@
 // LCD port:
 void PortB_Init(void);
 void PortB_Write(uint8_t data);
-int delayMS = 5000;
+int delayMS = 1000;
 // timer handling:
 void SysTick_Init(void);
 void delayMicroseconds(uint32_t microseconds);

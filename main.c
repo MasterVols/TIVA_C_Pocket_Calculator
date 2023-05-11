@@ -14,7 +14,6 @@ struct component
 //void parse_input (struct component*, char*, int*, int*);
 
 float num_evaluation(char*, unsigned int*);
-int eval_layer(struct component*,int*);
 int float_size(float);
 char* float_to_string(char* s, float f);
 
@@ -57,6 +56,10 @@ int main(void) {
 		SysTick_Init();
     initLCD();
 		initButtons(); // Initialize the buttons
+	
+		clearDisplay();
+		writeString("ECE-256 Final");
+		delayMicroseconds(3000000);
 
 		char options[18] = {'0','1','2','3','4','5','6','7','8','9','+','-','*','/','(',')','!','C'};
     int selection = 0;
@@ -124,7 +127,7 @@ int main(void) {
 			current[indexer] = options[selection];
 			clearDisplay();
 			writeString(current);
-			delayMicroseconds(1000);
+			delayMicroseconds(500);
 		}
 			// Handle the equation
 			indexer = 0;
@@ -146,7 +149,9 @@ int main(void) {
 			delayMicroseconds(500);
 			int i = 0;
 			for (i = 0; i < 17; i++) current[i] = ' ';
-			for (i = 0; i < float_size(eval); i++) current[i] = evals[i];
+			
+			if (eval < 0) for (i = 0; i < float_size(eval) + 1; i++) current[i] = evals[i];
+			else for (i = 0; i < float_size(eval); i++) current[i] = evals[i];
 			writeString(current);
 			delayMicroseconds(10000);
 			while ((buttonState & 0x01) == 1) buttonState = readButtons();
